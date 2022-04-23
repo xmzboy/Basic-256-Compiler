@@ -1,0 +1,14 @@
+function fact(n)
+   if n >=2 then
+      fact = fact(n-1) * n
+   else
+      fact = 1
+   end if
+end function
+
+for n = 1 to 20
+   print fact(n)
+next n
+end
+
+

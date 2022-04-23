@@ -1,0 +1,14 @@
+a=2
+b=-9
+c=4
+D=0
+  D =b*b-4*a*c
+  if D >= 0 then
+     X1 = (-b + sqr(D)) / (2 * a)
+     X2 = (-b - sqr(D)) / (2 * a)
+      print X1 
+      print X2
+   else
+     print "none"
+   end if
+

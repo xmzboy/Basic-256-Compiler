@@ -1,0 +1,7 @@
+dim G(10)
+for X=0 to 9
+ G[X]= X*X
+ print G[X]
+next X
+end
+

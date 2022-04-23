@@ -1,0 +1,34 @@
+print "===========FACTORIAL============"
+function fact(n)
+    if n >=2 then
+        fact = fact(n-1) * n
+    else
+        fact = 1
+    end if
+end function
+for n = 1 to 20
+   print fact(n)
+next n
+end
+print "==========QUAD-EQUAT============"
+a=2
+b=-9
+m=4
+D=0
+D =b*b-4*a*m
+if D >= 0 then
+  X1 = (-b + sqr (D)) / (2 * a)
+  X2 = (-b - sqr (D)) / (2 * a)
+  print X1 
+  print X2
+else
+  print "no real roots"
+end if
+print "=============ARRAY=============="
+dim G(10)
+for X=0 to 9
+ G[X]= X*X
+ print G[X]
+next X
+end
+

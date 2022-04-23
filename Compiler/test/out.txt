@@ -1,0 +1,109 @@
+.686P
+.model flat, stdcall
+
+include \masm32\include\masm32rt.inc
+include Macros.txt
+
+.data
+	n real8 0.
+	a real8 0.
+	b real8 0.
+	m real8 0.
+	D real8 0.
+	D real8 0.
+	X1 real8 0.
+	X2 real8 0.
+
+.code
+
+main proc
+	push 3f800000h
+	fld real4 ptr [esp]
+	fstp n
+startFor:
+	fld FP8(20.0)
+	fld n
+	fcompp
+	fstsw ax
+	sahf
+	ja endFor
+	fld n
+	Func
+	push edx
+	push eax
+	printf("%f\n")
+	pop eax
+	pop eax
+	printf("%f\n", FP8(12345.0))
+	fld1
+	fld n
+	fadd
+	fstp n
+	jmp startFor
+endFor:
+	push 40000000h
+	fld real4 ptr [esp]
+	fstp a
+	push 41100000h
+	fld real4 ptr [esp]
+	fchs
+	fstp b
+	push 40800000h
+	fld real4 ptr [esp]
+	fstp m
+	push 0h
+	fld real4 ptr [esp]
+	fstp D
+	fld b
+	fld b
+	fmul
+	push 40800000h
+	fld real4 ptr [esp]
+	fld a
+	fmul
+	fld m
+	fmul
+	fsub
+	fstp D
+	fld b
+	fchs
+	fld D
+	fsqrt
+	fadd
+	push 40000000h
+	fld real4 ptr [esp]
+	fld a
+	fmul
+	fdiv
+	fstp X1
+	fld b
+	fchs
+	fld D
+	fsqrt
+	fsub
+	push 40000000h
+	fld real4 ptr [esp]
+	fld a
+	fmul
+	fdiv
+	fstp X2
+	fld X1
+	Func
+	push edx
+	push eax
+	printf("%f\n")
+	pop eax
+	pop eax
+	fld X2
+	Func
+	push edx
+	push eax
+	printf("%f\n")
+	pop eax
+	pop eax
+	printf("SDELAL")
+	printf("\n")
+	inkey
+	invoke ExitProcess, 0
+main endp
+end main
