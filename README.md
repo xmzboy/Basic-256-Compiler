@@ -46,7 +46,7 @@ Print	if	Then	 sqr	Else	end	For
 to	Next	function	End	dim	While
 `````
 Data Types:
-SINGLE - float type	4 bytes
+* SINGLE - float type	4 bytes
 
 # Description output language
 MASM32 is a low–level programming language, which is a format for recording machine commands, convenient for human perception.
