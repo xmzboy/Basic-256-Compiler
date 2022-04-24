@@ -17,7 +17,7 @@ At the output you get an assembler file with the converted code.
 
 # Requirements
 
-* knowledge of C++
+* Knowledge of C++
 
 # Quick start
 
@@ -41,17 +41,12 @@ Input lang alphabet:
 * Other symbols: + - * / = <> ( ) “ [ ] , .
 
 Keywords:
-```basic-256
-Print	if
-Then	 sqr
-Else	end	
-For	to
-Next	function
-End	dim
-While
+```basic
+Print	if	Then	 sqr	Else	end	For
+to	Next	function	End	dim	While
 `````
 Data Types:
-SINGLE - float type                                                                 4 bytes
+SINGLE - float type	4 bytes
 
 # Description output language
 MASM32 is a low–level programming language, which is a format for recording machine commands, convenient for human perception.
