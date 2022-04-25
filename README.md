@@ -7,8 +7,9 @@ This compiler is open-source, you may use it for compile your .kbs files or as a
 - [Requirements](#requirements)
 - [Quick start](#quick-start)
 - [Architecture](#architecture)
-- [Description input language](#description-input-language)
-- [Description output language](#description-output-language)
+- [Theoretical foundations](#theoretical-foundations)
+	- [Description input language](##description-input-language)
+	- [Description output language](##description-output-language)
 - [Lexical analyzer](#lexical-analyzer)
 	- [Description of the lexical analyzer](##description-of-the-lexical-analyzer)
 	- [Data structures and processing algorithms](##data-structures-and-processing-algorithms)
@@ -35,7 +36,8 @@ The compiler have 3 parts:
 * 🖊 Syntactic analyzer - The parser receives the input result of the lexical analyzer and parses it in accordance with the specified grammar. The main task of the parser is to determine whether the original chain of tokens belongs to the input language.
 * 🏗 Code ganerator - Generates assembly code
 
-# Description input language
+# Theoretical foundations
+## Description input language
 Basic-256 is a programming language as well as an integrated software development environment developed by Microsoft Corporation.
 
 Input lang alphabet:
@@ -52,7 +54,7 @@ to	Next	function	End	dim	While
 Data Types:
 * SINGLE - float type	4 bytes
 
-# Description output language
+## Description output language
 MASM32 is a low–level programming language, which is a format for recording machine commands, convenient for human perception.
 Assembly language commands correspond to processor commands and, in fact, represent a convenient symbolic form of writing commands and their arguments. The assembly language also provides basic programming abstractions: linking parts of the program and data through labels with symbolic names and directives.
 
@@ -139,10 +141,12 @@ The lexical analyzer also contains the string trim(string&str) function, which i
 # Syntactic analyzer
 ## Description of the parser
 The parser receives the input result of the lexical analyzer and parses it in accordance with the specified grammar. The main task of the parser is to determine whether the original chain of tokens belongs to the input language.
+
 The parser faces the following tasks:
 * checking whether the input string of tokens is grammatically correct for the input language.
 * formation of an intermediate representation of the program in the form of a syntactic tree.
 * working with the identifier table.
+
 The parser works directly with the chain of lexemes received from the lexical analyzer and checks their suitability to certain rules of the input language. The structure of parser constructs is more complex than the structure of identifiers and numbers. Therefore, to describe the syntax of a language, much more complex grammars are needed compared to regular ones.
 For context-free grammar, syntactic analysis is implemented using recursive descent. A procedure is created whose task is, starting from the specified location of the original chain, to find a sub-chain that is derived from a possible nonterminal. If it is not possible to find a hook that satisfies any nonterminal, then the procedure completes its work with an error output.
 
