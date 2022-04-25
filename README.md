@@ -9,6 +9,9 @@ This compiler is open-source, you may use it for compile your .kbs files or as a
 - [Architecture](#architecture)
 - [Description input language](#description-input-language)
 - [Description output language](#description-output-language)
+- [Lexical analyzer](#lexical-analyzer)
+- [Description of the lexical analyzer](##description-of-the-lexical-analyzer)
+- [Data structures and processing algorithms](##data-structures-and-processing-algorithms)
 
 # How it works
 
