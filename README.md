@@ -86,3 +86,48 @@ Data Types:
 	* 4-byte, denoted by real4;
 	* 8-byte, denoted by real8;
 	* 10-byte, denoted by real10.
+
+# Lexical analyzer
+
+## Description of the lexical analyzer
+The lexical analyzer reads and processes the program text line by line and forms lexemes from them, which are passed to the parser. A lexeme is the minimum indivisible lexical unit of a language.
+
+The lexical analyzer is an optional compilation step, but desirable for the following reasons:
+* Checking identifiers, constants, limiters and service words makes the program more convenient for further processing
+* The lexical analyzer reduces the length of the program, eliminating insignificant spaces and comments from its original presentation
+* If the encoding in the original representation of the program is changed, this will only affect the lexical analyzer
+
+In procedural languages , lexemes are usually divided into classes:
+* Constants
+* Literals
+* Operators and separators
+* Identifiers
+* Keywords
+
+## Data structures and processing algorithms
+The simplest lexical analyzer that recognizes identifiers and numeric constants is represented as a deterministic finite automaton with the following diagram of states and transitions :
+![Index](https://github.com/xmzboy/Basic-256-Compiler/raw/main/readme_images/LA.jpg)
+
+Tokens are stored in map, a standard template class of the C++ programming language library designed to implement a mapping abstraction in the form of an ordered associative container. Before adding another token to the container, you need to check it for compliance with the rules, which is what the Lex class is designed for.
+The Lex class contains the following methods:
+```c++
+Lex(); // Constructor, opens the file with the input program
+~Lex(); // Destructor, closes the file stream.
+bool getToken(Token& token); // This method takes as an argument a reference to a variable of type Token (created class). This method reads characters from the file and checks which type of tokens the current character can belong to. The method throws an error if the resulting sequence of characters cannot be assigned to any type.
+vector<Token>* getTokenList() { return &tokenL; }; // The method returns a vector of lexemes as a result of the lexical analyzer
+````
+The LexErr error exclusion class is necessary to trigger an exceptional situation.
+```c++
+-inline LexErr(string str); //the function that is responsible for the output of the exception that occurred
+`````
+
+The Lex class contains the following fields:
+```c++
+ifstream _file; // File stream
+bool isLast, isStrCon; // Flags of the end of the file and the number of quotes
+int _position; // Pointer to the saved stream fragment
+vector<Token> tokenL; // Vector of tokens
+`````
+
+The Token class contains the string _value and TokenType GetType fields, which store the string value of the token and its type, respectively.
+The lexical analyzer also contains the string trim(string&str) function, which is responsible for removing all indents before and after the string constant, if the token is a string constant, otherwise it removes all indents that it sees.
