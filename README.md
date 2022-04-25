@@ -10,9 +10,10 @@ This compiler is open-source, you may use it for compile your .kbs files or as a
 - [Description input language](#description-input-language)
 - [Description output language](#description-output-language)
 - [Lexical analyzer](#lexical-analyzer)
-- 	[Description of the lexical analyzer](##description-of-the-lexical-analyzer)
-- 	[Data structures and processing algorithms](##data-structures-and-processing-algorithms)
-
+	- [Description of the lexical analyzer](##description-of-the-lexical-analyzer)
+	- [Data structures and processing algorithms](##data-structures-and-processing-algorithms)
+- [Syntactic analyzer](#syntactic-analyzer)
+	- [Description of the parser](##description-of-the-parser)
 # How it works
 
 The program takes your .kbs or .txt file and runs it through lexical and syntactic analyzers, as well as through a code generator. 
@@ -134,3 +135,14 @@ vector<Token> tokenL; // Vector of tokens
 
 The Token class contains the string _value and TokenType GetType fields, which store the string value of the token and its type, respectively.
 The lexical analyzer also contains the string trim(string&str) function, which is responsible for removing all indents before and after the string constant, if the token is a string constant, otherwise it removes all indents that it sees.
+
+# Syntactic analyzer
+## Description of the parser
+The parser receives the input result of the lexical analyzer and parses it in accordance with the specified grammar. The main task of the parser is to determine whether the original chain of tokens belongs to the input language.
+The parser faces the following tasks:
+* checking whether the input string of tokens is grammatically correct for the input language.
+* formation of an intermediate representation of the program in the form of a syntactic tree.
+* working with the identifier table.
+The parser works directly with the chain of lexemes received from the lexical analyzer and checks their suitability to certain rules of the input language. The structure of parser constructs is more complex than the structure of identifiers and numbers. Therefore, to describe the syntax of a language, much more complex grammars are needed compared to regular ones.
+For context-free grammar, syntactic analysis is implemented using recursive descent. A procedure is created whose task is, starting from the specified location of the original chain, to find a sub-chain that is derived from a possible nonterminal. If it is not possible to find a hook that satisfies any nonterminal, then the procedure completes its work with an error output.
+
