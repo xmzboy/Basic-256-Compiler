@@ -15,7 +15,7 @@ This compiler is open-source, you may use it for compile your .kbs files or as a
 	- [Data structures and processing algorithms](#data-structures-and-processing-algorithms)
 - [Syntactic analyzer](#syntactic-analyzer)
 	- [Description of the parser](#description-of-the-parser)
-	- [Data structures and processing algorithms](#data-structures-and-processing-algorithms)
+	- [Data structures and processing algorithms of parser](#data-structures-and-processing-algorithms-of-parser)
 	- [Semantic analysis](#semantic-analysis)
 # How it works
 
@@ -152,7 +152,7 @@ The parser faces the following tasks:
 The parser works directly with the chain of lexemes received from the lexical analyzer and checks their suitability to certain rules of the input language. The structure of parser constructs is more complex than the structure of identifiers and numbers. Therefore, to describe the syntax of a language, much more complex grammars are needed compared to regular ones.
 For context-free grammar, syntactic analysis is implemented using recursive descent. A procedure is created whose task is, starting from the specified location of the original chain, to find a sub-chain that is derived from a possible nonterminal. If it is not possible to find a hook that satisfies any nonterminal, then the procedure completes its work with an error output.
 
-## Data structures and processing algorithms
+## Data structures and processing algorithms of parser
 During the syntactic analysis, the source text is transformed into a data structure – a tree that displays the syntactic structure of the input sequence and is well suited for further processing.
 The parser is written based on the recursive descent method for the input language. It describes the rules and minimum nonterminals for checking the input chain for belonging to the input language.
 At the input, the parser receives a chain of tokens in the form of a vector vector<Token> *tokenL;
@@ -209,7 +209,7 @@ int sizeList = 0; // Size of the token vector
 bool init = false; // Initialization check
 `````
 Based on the results of the parser, a tree is built with a bypass root -> left son -> right son. As an example, I give a tree for the line D = b*b - 4*a*m
-![Tree_example](https://github.com/xmzboy/Basic-256-Compiler/raw/main/readme_images/Tree_example.jpg)
+![Tree_example](https://github.com/xmzboy/Basic-256-Compiler/raw/main/readme_images/Tree_example.png)
 
 ## Semantic analysis
 The semantic analysis of the input program is also carried out with the help of a parser. With the help of the identifier table, the initialization of a variable, function, or array is checked. Each identifier is added to its corresponding vector, depending on what it is:
