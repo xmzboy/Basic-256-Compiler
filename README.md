@@ -15,6 +15,8 @@ This compiler is open-source, you may use it for compile your .kbs files or as a
 	- [Data structures and processing algorithms](##data-structures-and-processing-algorithms)
 - [Syntactic analyzer](#syntactic-analyzer)
 	- [Description of the parser](##description-of-the-parser)
+	- [Data structures and processing algorithms](##data-structures-and-processing-algorithms)
+	- [Semantic analysis](##semantic-analysis)
 # How it works
 
 The program takes your .kbs or .txt file and runs it through lexical and syntactic analyzers, as well as through a code generator. 
@@ -150,3 +152,78 @@ The parser faces the following tasks:
 The parser works directly with the chain of lexemes received from the lexical analyzer and checks their suitability to certain rules of the input language. The structure of parser constructs is more complex than the structure of identifiers and numbers. Therefore, to describe the syntax of a language, much more complex grammars are needed compared to regular ones.
 For context-free grammar, syntactic analysis is implemented using recursive descent. A procedure is created whose task is, starting from the specified location of the original chain, to find a sub-chain that is derived from a possible nonterminal. If it is not possible to find a hook that satisfies any nonterminal, then the procedure completes its work with an error output.
 
+## Data structures and processing algorithms
+During the syntactic analysis, the source text is transformed into a data structure – a tree that displays the syntactic structure of the input sequence and is well suited for further processing.
+The parser is written based on the recursive descent method for the input language. It describes the rules and minimum nonterminals for checking the input chain for belonging to the input language.
+At the input, the parser receives a chain of tokens in the form of a vector vector<Token> *tokenL;
+
+The Syntax class contains the following methods:
+```c++
+ bool Parse(Node*& root); // Running the parser
+ Syntax(); // Constructor
+ ~Syntax() {}; // Destructor
+ void RollBack(); // Roll back to the saved state
+ void SaveStatement(); // Saving the carriage state
+ void Check(); // Checking for an empty program
+ Tree* Syn(vector<Token> *tokenL); // Creating a tree
+ bool On_D(Node*& root); // Calling the main rule
+ bool On_DLIST(Node*& root); // Main rule
+ bool On_I(Node*& root, bool init); // ID processing rule
+ bool On_FuncId(Node*& root, bool init); // Function name processing rule
+ bool On_N(Node*& root); // Number processing rule
+ bool On_MinNI(Node*&root);// Unary minus treatment rule
+ bool On_BS(Node*& root); // Line wrap processing rule
+ bool On_STR(Node*& root); // String processing rule
+ bool On_IF(Node*&root); // Conditional operator processing rule
+ bool On_IFCond(Node*& root); // Rule for processing the condition if conditional operator
+ bool On_IFCondElse(Node*& root); // Rule for processing a condition of an otherwise conditional operator
+ bool On_FOR(Node*& root); // Loop processing rule
+ bool On_PR(Node*& root); // Output processing rule
+ bool On_FUNC(Node*& root); // Function processing rule
+ bool On_FuncCond(Node*& root); // Function condition processing rule
+ bool On_CO(Node*& root); // Equality check rule
+ bool On_Declar(Node*& root); // Rule variable declaration in condition
+ bool On_Expr(Node*& root); // Declaration or expression rule
+ bool On_Group(Node*& root); // Rule for processing expressions in parentheses
+ bool On_Mult(Node*& root); // Rule for processing multiplication or division calling the On_Group rule(Node*& root);
+ bool On_Add(Node*& root); // Rule for handling plus or minus calling the On_Mult rule(Node*& root);
+ bool On_Result(Node*& root); // Calling On_Add(Node*& root);
+ bool On_SQR(Node*& root); // Square root processing rule
+ bool On_FuncExpr(Node*& root); // Function call processing rule
+ bool On_ARR(Node*& root); // Array processing rule
+ bool On_ArrDec(Node*& root); // Array declaration
+ bool On_ArrId(Node*& root, bool init); // Array name
+ bool On_ArrExpr(Node*& root, bool init); // Initializing the array
+ bool On_ArrInExpr(Node*& root); // Array call
+ bool On_FindArrId(Node*& root, bool init); // Finding the name of an already declared array
+`````
+
+The Syntax class contains the following fields:
+```c++
+IDTable IDTable; // Object of the ID table
+int it; // Current index of the vector
+int saveIt; // Saved index
+int brCount = 0; // Number of brackets
+vector<Token> lexList; // Vector of lexemes
+int sizeList = 0; // Size of the token vector
+bool init = false; // Initialization check
+`````
+Based on the results of the parser, a tree is built with a bypass root -> left son -> right son. As an example, I give a tree for the line D = b*b - 4*a*m
+![Tree_example](https://github.com/xmzboy/Basic-256-Compiler/raw/main/readme_images/Tree_example.jpg)
+
+## Semantic analysis
+The semantic analysis of the input program is also carried out with the help of a parser. With the help of the identifier table, the initialization of a variable, function, or array is checked. Each identifier is added to its corresponding vector, depending on what it is:
+```c++
+vector<Func> funcIDList; // Vector of function names
+vector<Var> varIDList; // Vector of variable names
+vector<Array> arrayIDList; // Vector of array names
+`````
+For each type of identifiers, a search function is performed, or the function of adding an identifier to the corresponding vector.
+```c++
+ bool pushFuncID(string _name,bool initFunc); // Adding a function name
+ bool findFuncID(string _name); // Function name search
+ bool pushVarID(string _name,bool init); // Adding a variable name
+ bool findVarID(string str); // Search for the variable name
+ bool pushArrayID(string _mas, bool init); // Adding an array name
+ bool findArrayID(string _name); // Array name search
+`````
