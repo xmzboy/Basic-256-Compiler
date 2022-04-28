@@ -17,6 +17,8 @@ This compiler is open-source, you may use it for compile your .kbs files or as a
 	- [Description of the parser](#description-of-the-parser)
 	- [Data structures and processing algorithms of parser](#data-structures-and-processing-algorithms-of-parser)
 	- [Semantic analysis](#semantic-analysis)
+- [Code Generator](#code-generator)
+	- [Description of the code generator](#description-of-the-code-generator)
 # How it works
 
 The program takes your .kbs or .txt file and runs it through lexical and syntactic analyzers, as well as through a code generator. 
@@ -227,3 +229,21 @@ For each type of identifiers, a search function is performed, or the function of
  bool pushArrayID(string _mas, bool init); // Adding an array name
  bool findArrayID(string _name); // Array name search
 `````
+# Code Generator
+## Description of the code generator
+Code generation is the last stage of the compiler's work. It should be noted that the assembler uses such a data structure as a stack. It is convenient to count both arithmetic operations and comparison operations on it. The assembler provides opportunities for translating regular languages, but in order to use a context-free language, you must first modify it, as is done when traversing the parse tree.
+Assembling may not be the first and not the last step on the way to obtaining an executable program module. So, many compilers from high-level programming languages produce the result in the form of an assembly language program, which is further processed by the assembler. Also, the result of the assembly may not be an executable, but an object module containing disparate blocks of machine code and program data, from which an executable file can be obtained later using the link editor.
+It should also be borne in mind that the assembler mainly works with the lowest level of the data hierarchy in the computer, which is why it sometimes has compatibility problems on different operating systems. The matter is complicated by the fact that certain commands are written differently on different processors, for example, commands on Intel may differ significantly from commands on AMD. For example, some processors do not have a division command.
+A register is an ultra–fast memory that is located in the processor. Each register has its own purpose, but basically it is data storage, which is implemented by general-purpose registers.
+General-purpose registers are used to store a small amount of intermediate data.
+
+![Registers](https://github.com/xmzboy/Basic-256-Compiler/raw/main/readme_images/Registers.png)
+
+* eax – used for storing intermediate data. In fact, it is a universal accumulator of values.
+* ebx is the base register that is used to store the address of a given memory block.
+* ecx is a counter that is used mainly for cycles.
+* esp – stack pointer, contains the address of its vertex.
+* edx is a data register that stores intermediate calculations.
+* esi is the source index, in chain operations it contains a pointer to the current source element.
+* edi is the receiver index, in chain operations it contains a pointer to the current receiver element.
+* ebp – stack base pointer.
