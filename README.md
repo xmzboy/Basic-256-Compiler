@@ -19,6 +19,8 @@ This compiler is open-source, you may use it for compile your .kbs files or as a
 	- [Semantic analysis](#semantic-analysis)
 - [Code Generator](#code-generator)
 	- [Description of the code generator](#description-of-the-code-generator)
+	- [Code generation method](#code-generation-method)
+
 # How it works
 
 The program takes your .kbs or .txt file and runs it through lexical and syntactic analyzers, as well as through a code generator. 
@@ -247,3 +249,7 @@ General-purpose registers are used to store a small amount of intermediate data.
 * esi is the source index, in chain operations it contains a pointer to the current source element.
 * edi is the receiver index, in chain operations it contains a pointer to the current receiver element.
 * ebp – stack base pointer.
+
+## Code generation method
+Code generation is the compiler's translation of the internal representation of the source program into a string of characters of the output language. Generation generates the resulting object program in assembly language or directly in machine language. The internal representation of a program can have any structure depending on the compiler implementation, while the resulting program is always a linear sequence of commands. Therefore, the generation of object code in any case must perform actions related to the transformation of complex syntactic structures into linear chains.
+As a rule, the compiler generates the resulting code in stages based on the completed syntactic constructions of the input program. The compiler extracts a complete syntactic construction from the program text, then generates a fragment of the resulting code for it and places it in the text of the output program. Then it proceeds to the next syntactic construction. This continues until the entire program is disassembled.
