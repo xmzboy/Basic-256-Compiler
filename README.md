@@ -20,6 +20,7 @@ This compiler is open-source, you may use it for compile your .kbs files or as a
 - [Code Generator](#code-generator)
 	- [Description of the code generator](#description-of-the-code-generator)
 	- [Code generation method](#code-generation-method)
+	- [Data structures and processing algorithms in code generator](#data-structures-and-processing-algorithms-in- code-generator)
 
 # How it works
 
@@ -123,9 +124,9 @@ The simplest lexical analyzer that recognizes identifiers and numeric constants 
 Tokens are stored in map, a standard template class of the C++ programming language library designed to implement a mapping abstraction in the form of an ordered associative container. Before adding another token to the container, you need to check it for compliance with the rules, which is what the Lex class is designed for.
 The Lex class contains the following methods:
 ```c++
-Lex(); // Constructor, opens the file with the input program
-~Lex(); // Destructor, closes the file stream.
-bool getToken(Token& token); // This method takes as an argument a reference to a variable of type Token (created class). This method reads characters from the file and checks which type of tokens the current character can belong to. The method throws an error if the resulting sequence of characters cannot be assigned to any type.
+Lex(); 				// Constructor, opens the file with the input program
+~Lex(); 			// Destructor, closes the file stream.
+bool getToken(Token& token); 	// This method takes as an argument a reference to a variable of type Token (created class). This method reads characters from the file and checks which type of tokens the current character can belong to. The method throws an error if the resulting sequence of characters cannot be assigned to any type.
 vector<Token>* getTokenList() { return &tokenL; }; // The method returns a vector of lexemes as a result of the lexical analyzer
 ````
 The LexErr error exclusion class is necessary to trigger an exceptional situation.
@@ -135,10 +136,10 @@ The LexErr error exclusion class is necessary to trigger an exceptional situatio
 
 The Lex class contains the following fields:
 ```c++
-ifstream _file; // File stream
-bool isLast, isStrCon; // Flags of the end of the file and the number of quotes
-int _position; // Pointer to the saved stream fragment
-vector<Token> tokenL; // Vector of tokens
+ifstream _file; 	// File stream
+bool isLast, isStrCon; 	// Flags of the end of the file and the number of quotes
+int _position; 		// Pointer to the saved stream fragment
+vector<Token> tokenL; 	// Vector of tokens
 `````
 
 The Token class contains the string _value and TokenType GetType fields, which store the string value of the token and its type, respectively.
@@ -163,54 +164,54 @@ At the input, the parser receives a chain of tokens in the form of a vector vect
 
 The Syntax class contains the following methods:
 ```c++
- bool Parse(Node*& root); // Running the parser
- Syntax(); // Constructor
- ~Syntax() {}; // Destructor
- void RollBack(); // Roll back to the saved state
- void SaveStatement(); // Saving the carriage state
- void Check(); // Checking for an empty program
- Tree* Syn(vector<Token> *tokenL); // Creating a tree
- bool On_D(Node*& root); // Calling the main rule
- bool On_DLIST(Node*& root); // Main rule
- bool On_I(Node*& root, bool init); // ID processing rule
- bool On_FuncId(Node*& root, bool init); // Function name processing rule
- bool On_N(Node*& root); // Number processing rule
- bool On_MinNI(Node*&root);// Unary minus treatment rule
- bool On_BS(Node*& root); // Line wrap processing rule
- bool On_STR(Node*& root); // String processing rule
- bool On_IF(Node*&root); // Conditional operator processing rule
- bool On_IFCond(Node*& root); // Rule for processing the condition if conditional operator
- bool On_IFCondElse(Node*& root); // Rule for processing a condition of an otherwise conditional operator
- bool On_FOR(Node*& root); // Loop processing rule
- bool On_PR(Node*& root); // Output processing rule
- bool On_FUNC(Node*& root); // Function processing rule
- bool On_FuncCond(Node*& root); // Function condition processing rule
- bool On_CO(Node*& root); // Equality check rule
- bool On_Declar(Node*& root); // Rule variable declaration in condition
- bool On_Expr(Node*& root); // Declaration or expression rule
- bool On_Group(Node*& root); // Rule for processing expressions in parentheses
- bool On_Mult(Node*& root); // Rule for processing multiplication or division calling the On_Group rule(Node*& root);
- bool On_Add(Node*& root); // Rule for handling plus or minus calling the On_Mult rule(Node*& root);
- bool On_Result(Node*& root); // Calling On_Add(Node*& root);
- bool On_SQR(Node*& root); // Square root processing rule
- bool On_FuncExpr(Node*& root); // Function call processing rule
- bool On_ARR(Node*& root); // Array processing rule
- bool On_ArrDec(Node*& root); // Array declaration
- bool On_ArrId(Node*& root, bool init); // Array name
- bool On_ArrExpr(Node*& root, bool init); // Initializing the array
- bool On_ArrInExpr(Node*& root); // Array call
- bool On_FindArrId(Node*& root, bool init); // Finding the name of an already declared array
+ bool Parse(Node*& root);			// Running the parser
+ Syntax(); 					// Constructor
+ ~Syntax() {}; 					// Destructor
+ void RollBack(); 				// Roll back to the saved state
+ void SaveStatement(); 				// Saving the carriage state
+ void Check(); 					// Checking for an empty program
+ Tree* Syn(vector<Token> *tokenL); 		// Creating a tree
+ bool On_D(Node*& root); 			// Calling the main rule
+ bool On_DLIST(Node*& root); 			// Main rule
+ bool On_I(Node*& root, bool init); 		// ID processing rule
+ bool On_FuncId(Node*& root, bool init); 	// Function name processing rule
+ bool On_N(Node*& root); 			// Number processing rule
+ bool On_MinNI(Node*&root);			// Unary minus treatment rule
+ bool On_BS(Node*& root); 			// Line wrap processing rule
+ bool On_STR(Node*& root); 			// String processing rule
+ bool On_IF(Node*&root); 			// Conditional operator processing rule
+ bool On_IFCond(Node*& root); 			// Rule for processing the condition if conditional operator
+ bool On_IFCondElse(Node*& root); 		// Rule for processing a condition of an otherwise conditional operator
+ bool On_FOR(Node*& root); 			// Loop processing rule
+ bool On_PR(Node*& root); 			// Output processing rule
+ bool On_FUNC(Node*& root); 			// Function processing rule
+ bool On_FuncCond(Node*& root); 		// Function condition processing rule
+ bool On_CO(Node*& root); 			// Equality check rule
+ bool On_Declar(Node*& root); 			// Rule variable declaration in condition
+ bool On_Expr(Node*& root); 			// Declaration or expression rule
+ bool On_Group(Node*& root); 			// Rule for processing expressions in parentheses
+ bool On_Mult(Node*& root); 			// Rule for processing multiplication or division calling the On_Group rule(Node*& root);
+ bool On_Add(Node*& root); 			// Rule for handling plus or minus calling the On_Mult rule(Node*& root);
+ bool On_Result(Node*& root); 			// Calling On_Add(Node*& root);
+ bool On_SQR(Node*& root); 			// Square root processing rule
+ bool On_FuncExpr(Node*& root); 		// Function call processing rule
+ bool On_ARR(Node*& root); 			// Array processing rule
+ bool On_ArrDec(Node*& root); 			// Array declaration
+ bool On_ArrId(Node*& root, bool init); 	// Array name
+ bool On_ArrExpr(Node*& root, bool init); 	// Initializing the array
+ bool On_ArrInExpr(Node*& root); 		// Array call
+ bool On_FindArrId(Node*& root, bool init); 	// Finding the name of an already declared array
 `````
 
 The Syntax class contains the following fields:
 ```c++
-IDTable IDTable; // Object of the ID table
-int it; // Current index of the vector
-int saveIt; // Saved index
-int brCount = 0; // Number of brackets
-vector<Token> lexList; // Vector of lexemes
-int sizeList = 0; // Size of the token vector
-bool init = false; // Initialization check
+IDTable IDTable; 	// Object of the ID table
+int it; 		// Current index of the vector
+int saveIt; 		// Saved index
+int brCount = 0; 	// Number of brackets
+vector<Token> lexList; 	// Vector of lexemes
+int sizeList = 0; 	// Size of the token vector
+bool init = false; 	// Initialization check
 `````
 Based on the results of the parser, a tree is built with a bypass root -> left son -> right son. As an example, I give a tree for the line D = b*b - 4*a*m
 ![Tree_example](https://github.com/xmzboy/Basic-256-Compiler/raw/main/readme_images/Tree_example.png)
@@ -218,18 +219,18 @@ Based on the results of the parser, a tree is built with a bypass root -> left s
 ## Semantic analysis
 The semantic analysis of the input program is also carried out with the help of a parser. With the help of the identifier table, the initialization of a variable, function, or array is checked. Each identifier is added to its corresponding vector, depending on what it is:
 ```c++
-vector<Func> funcIDList; // Vector of function names
-vector<Var> varIDList; // Vector of variable names
-vector<Array> arrayIDList; // Vector of array names
+vector<Func> funcIDList; 	// Vector of function names
+vector<Var> varIDList; 		// Vector of variable names
+vector<Array> arrayIDList; 	// Vector of array names
 `````
 For each type of identifiers, a search function is performed, or the function of adding an identifier to the corresponding vector.
 ```c++
- bool pushFuncID(string _name,bool initFunc); // Adding a function name
- bool findFuncID(string _name); // Function name search
- bool pushVarID(string _name,bool init); // Adding a variable name
- bool findVarID(string str); // Search for the variable name
- bool pushArrayID(string _mas, bool init); // Adding an array name
- bool findArrayID(string _name); // Array name search
+ bool pushFuncID(string _name,bool initFunc); 	// Adding a function name
+ bool findFuncID(string _name); 		// Function name search
+ bool pushVarID(string _name,bool init); 	// Adding a variable name
+ bool findVarID(string str); 			// Search for the variable name
+ bool pushArrayID(string _mas, bool init); 	// Adding an array name
+ bool findArrayID(string _name); 		// Array name search
 `````
 # Code Generator
 ## Description of the code generator
@@ -253,3 +254,39 @@ General-purpose registers are used to store a small amount of intermediate data.
 ## Code generation method
 Code generation is the compiler's translation of the internal representation of the source program into a string of characters of the output language. Generation generates the resulting object program in assembly language or directly in machine language. The internal representation of a program can have any structure depending on the compiler implementation, while the resulting program is always a linear sequence of commands. Therefore, the generation of object code in any case must perform actions related to the transformation of complex syntactic structures into linear chains.
 As a rule, the compiler generates the resulting code in stages based on the completed syntactic constructions of the input program. The compiler extracts a complete syntactic construction from the program text, then generates a fragment of the resulting code for it and places it in the text of the output program. Then it proceeds to the next syntactic construction. This continues until the entire program is disassembled.
+
+## Data structures and processing algorithms in code generator
+During the operation of the code generator, the result of the parser, namely the parse tree, is converted into the program text in the MASM32 assembly language. Code generation is divided into three stages. In the first case, the variable declaration is transformed, then the main body of the program is transformed, and after that the functions are transformed if they are available.
+
+The CodeGenerator class contains the following methods:
+```c++
+void addLineToBody(string str); 		// Adding the created string to the program text
+void addLineToData(string str); 		// Adding the created string to the data segment
+string convertToHex(string num); 		// Converting a number from dec to hex
+void setArifASM(Node* root); 			// Adding arithmetic operations
+void setDeclareVarASM(vector<Node*> roots); 	// Variable declaration
+void setDeclareArrASM(vector<Node*> roots); 	// Array declaration
+void setPrintASM(Node* root); 			// Output
+void setForASM(Node* root); 			// Loop
+void setFunctionASM(Node* root); 		//Function
+void setIfASM(Node* root); 			//Conditional operator
+CodeGenerator(); 				// Constructor
+~CodeGenerator() {}; 				//Destructor
+void GenerateCode(Node* &root); 		// Main code generation function
+void writeInFile(string fileName); 		// Write function to file
+`````
+
+The CodeGenerator class contains the following fields:
+```c++
+string *currentBody; 			// The current location
+of the string bodyASM entry; 		// The text of the assembler program
+vector<string> mainLocalaVariables; 	// Vector of variable names in the main
+vector<string> funcLocalaVariables; 	// Vector of variable names in
+the string dataASM function; 		// Segment for
+string funcASM data; 			// Segment for functions
+string fileName; 			// File name for recording the result
+const string headASM; 			// The initial code in assembler, which must be
+vector<string> functionsASM; 		// Function vector
+string curName; 			// Current function name
+string counter; 			// Counter for correct label output
+`````
