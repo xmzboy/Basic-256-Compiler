@@ -20,7 +20,7 @@ This compiler is open-source, you may use it for compile your .kbs files or as a
 - [Code Generator](#code-generator)
 	- [Description of the code generator](#description-of-the-code-generator)
 	- [Code generation method](#code-generation-method)
-	- [Data structures and processing algorithms in code generator](#data-structures-and-processing-algorithms-in- code-generator)
+	- [Data structures and processing algorithms in code generator](#data-structures-and-processing-algorithms-in-code-generator)
 - [Test examples](#test-examples)
 
 # How it works
