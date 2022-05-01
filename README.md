@@ -21,6 +21,7 @@ This compiler is open-source, you may use it for compile your .kbs files or as a
 	- [Description of the code generator](#description-of-the-code-generator)
 	- [Code generation method](#code-generation-method)
 	- [Data structures and processing algorithms in code generator](#data-structures-and-processing-algorithms-in- code-generator)
+- [Test examples](#test-examples)
 
 # How it works
 
@@ -289,4 +290,204 @@ const string headASM; 			// The initial code in assembler, which must be
 vector<string> functionsASM; 		// Function vector
 string curName; 			// Current function name
 string counter; 			// Counter for correct label output
+`````
+
+# Test examples
+
+## The quadratic equation
+Program in input language:
+```
+a=2
+b=-9
+m=4
+D=0
+D =b*b-4*a*m
+if D >= 0 then
+   X1 = (-b + sqr(D)) / (2 * a)
+   X2 = (-b - sqr(D)) / (2 * a)
+   print X1 
+   print X2
+else
+   print "no real roots"
+end if
+`````
+
+Program in output language:
+```
+.686P
+.model flat, stdcall
+include \masm32\include\masm32rt.inc
+include Macros.txt
+.data
+.code
+main proc
+	local a : real8
+	local b : real8
+	local m : real8
+	local D : real8
+	local X1 : real8
+	local X2 : real8
+	push 40000000h
+	fld real4 ptr [esp]
+	fstp a
+	push 41100000h
+	fld real4 ptr [esp]
+	fchs
+	fstp b
+	push 40800000h
+	fld real4 ptr [esp]
+	fstp m
+	push 0h
+	fld real4 ptr [esp]
+	fstp D
+	fld b
+	fld b
+	fmul
+	push 40800000h
+	fld real4 ptr [esp]
+	fld a
+	fmul
+	fld m
+	fmul
+	fsub
+	fstp D
+	fld FP8(0.0)
+	fld D
+	fcompp
+	fstsw ax
+	sahf
+	jb IFLABEL
+	fld b
+	fchs
+	fld D
+	fsqrt
+	fadd
+	push 40000000h
+	fld real4 ptr [esp]
+	fld a
+	fmul
+	fdiv
+	fstp X1
+	fld b
+	fchs
+	fld D
+	fsqrt
+	fsub
+	push 40000000h
+	fld real4 ptr [esp]
+	fld a
+	fmul
+	fdiv
+	fstp X2
+	fld X1
+	TwoRegisterMacros
+	push edx
+	push eax
+	printf("%f\n")
+	pop eax
+	pop eax
+	fld X2
+	TwoRegisterMacros
+	push edx
+	push eax
+	printf("%f\n")
+	pop eax
+	pop eax
+	jmp IFLABEL1
+IFLABEL:
+	printf("no real roots")
+	printf("\n")
+IFLABEL1:
+	inkey
+	invoke ExitProcess, 0
+main endp
+end main
+`````
+
+##Factorial
+Program in input language:
+```
+function fact(n)
+   if n >=2 then
+      fact = fact(n-1) * n
+   else
+      fact = 1
+   end if
+end function
+for n = 1 to 20
+   print fact(n)
+next n
+end
+`````
+
+Program in output language:
+```
+.686P
+.model flat, stdcall
+include \masm32\include\masm32rt.inc
+include Macros.txt
+.data
+.code
+fact PROC n : real8
+	fld FP8(2.0)
+	fld n
+	fcompp
+	fstsw ax
+	sahf
+	jb IFLABEL
+	fld n
+	push 3f800000h
+	fld real4 ptr [esp]
+	fsub
+	TwoRegisterMacros
+	push edx
+	push eax
+	call fact
+	push edx
+	push eax
+	fld qword ptr [esp]
+	fld n
+	fmul
+	TwoRegisterMacros
+	jmp IFLABEL1
+IFLABEL:
+	push 3f800000h
+	fld real4 ptr [esp]
+	TwoRegisterMacros
+IFLABEL1:
+	ret
+fact ENDP
+
+main proc
+	local n : real8
+	push 3f800000h
+	fld real4 ptr [esp]
+	fstp n
+startFor111:
+	fld FP8(20.0)
+	fld n
+	fcompp
+	fstsw ax
+	sahf
+	ja endFor111
+	fld n
+	TwoRegisterMacros
+	push edx
+	push eax
+	call fact
+	push edx
+	push eax
+	printf("%f\n")
+	pop eax
+	pop eax
+	fld1
+	fld n
+	fadd
+	fstp n
+	jmp startFor111
+endFor111:
+	inkey
+	invoke ExitProcess, 0
+main endp
+end main
 `````
